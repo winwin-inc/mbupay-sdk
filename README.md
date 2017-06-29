@@ -20,6 +20,7 @@ use winwin\mbupay\payment\Payment;
 $payment = new Payment(new Config([
     'appid' => $appid,
     'secret' => $secret,
+    'mch_id' => $merchant_id,
 ]));
 ```
 
@@ -29,7 +30,6 @@ $payment = new Payment(new Config([
 use winwin\mbupay\payment\Order;
 
 $result = $payment->prepare(new Order([
-    'mch_id' => $merchant_id,
     'method' => 'mbupay.wxpay.jsapi',
     'body' => '支付1分',
     'total_fee' => 1,
