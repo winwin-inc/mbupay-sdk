@@ -2,6 +2,8 @@
 
 namespace winwin\mbupay\payment;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use winwin\mbupay\Config;
 use winwin\mbupay\TestCase;
 
@@ -9,11 +11,16 @@ class PaymentTest extends TestCase
 {
     public function createPayment()
     {
-        return new Payment(new Config([
+        $logger = new Logger('API');
+        $logger->pushHandler(new StreamHandler('php://stderr', Logger::DEBUG));
+
+        $payment = new Payment(new Config([
             'appid' => getenv("CITIC_APP_ID"),
             'secret' => getenv("CITIC_MCH_SECRET"),
             'mch_id' => getenv("CITIC_MCH_ID"),
         ]));
+        $payment->setLogger($logger);
+        return $payment;
     }
 
     public function testPrepare()
@@ -21,9 +28,9 @@ class PaymentTest extends TestCase
         $result = $this->createPayment()->prepare(new Order([
             'method' => API::WXPAY_JSPAY,
             'out_trade_no' => uniqid(),
-            'body' => 'test',
+            'body' => 'test  item',
             'total_fee' => 1,
-            'openid' => 'oynvnwN8e0we0u52IwftIfxqdbis', // openid就是该公众号下的openid
+            'openid' => 'otrhowr4bheFdWNkrPL-bMCvrLUE', // openid就是该公众号下的openid
         ]));
         var_dump($result);
     }

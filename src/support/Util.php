@@ -61,7 +61,7 @@ final class Util
     public static function generateSign(array $data, $secret, $method = 'md5')
     {
         $data = array_filter($data, function ($val) {
-            return $val === null || $val !== '';
+            return isset($val) && $val !== '';
         });
         ksort($data);
         $pairs = [];
